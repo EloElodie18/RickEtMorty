@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --base-href /RickEtMorty/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:RickMorty": "node dist/rick-morty/server/server.mjs"

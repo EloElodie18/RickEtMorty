@@ -1,14 +1,14 @@
-<!-- <p>page-card works!</p> -->
-<!-- <app-decompte></app-decompte> -->
-<button (click)="getRandomPersonnage()" class="card-button">Je veux une carte de personnage</button>
-<!-- <div id="compteur">3</div> -->
-<p></p>
-<div *ngIf="personnagesToDisplay" class="card" >
-<img [src]="personnagesToDisplay.image" alt="personnage image" class="image">
-<div class="card-info">
-    <h1>Mon personnage: {{personnagesToDisplay.name}}</h1>
-    <h1>Son numéro: {{personnagesToDisplay.id}}</h1>
-    <h1>Son espèce: {{personnagesToDisplay.species}}</h1>
-    <h1>Son état: {{personnagesToDisplay.status}}</h1>
-</div>
+<button (click)="getRandomPersonnage()" [disabled]="countdownActive" class="card-button">Je veux une carte de
+    personnage</button>
+
+<p *ngIf="countdownActive">Une nouvelle carte peut être générée dans : {{ countdownDisplay }}</p>
+
+<div *ngIf="personnagesToDisplay" class="card">
+    <img [src]="personnagesToDisplay.image" alt="personnage image" class="image">
+    <div class="card-info">
+        <h1>Mon personnage: {{personnagesToDisplay.name}}</h1>
+        <h1>Son numéro: {{personnagesToDisplay.id}}</h1>
+        <h1>Son espèce: {{personnagesToDisplay.species}}</h1>
+        <h1>Son état: {{personnagesToDisplay.status}}</h1>
+    </div>
 </div>
