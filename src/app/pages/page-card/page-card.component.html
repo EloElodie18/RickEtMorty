@@ -1,7 +1,9 @@
-<button (click)="getRandomPersonnage()" [disabled]="countdownActive" class="card-button">Je veux une carte de
+<H5>RICK&MORTYCARD</H5>
+<p></p>
+<button (click)="getRandomPersonnage()" [disabled]="compteurActif" class="card-button">Je veux une carte de
     personnage</button>
-
-<p *ngIf="countdownActive">Une nouvelle carte peut être générée dans : {{ countdownDisplay }}</p>
+<p></p>
+<p class="decompte" *ngIf="compteurActif">Une nouvelle carte peut être générée dans : {{ compteurAffiche }}</p>
 
 <div *ngIf="personnagesToDisplay" class="card">
     <img [src]="personnagesToDisplay.image" alt="personnage image" class="image">

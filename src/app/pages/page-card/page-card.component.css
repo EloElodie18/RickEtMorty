@@ -30,9 +30,21 @@
 }
 
 #compteur {
-    font-size: xx-large;
-    
+    font-size: xx-large;    
     display: flex;
     margin: auto;
+}
 
+H5 {
+    display: block;
+    margin: auto;
+    width: fit-content;
+    font-family: "Helvetica Neue", "Arial", sans-serif;
+}
+
+.decompte {
+    display: block;
+    margin: auto;
+    width: fit-content;
+    font-family: "Helvetica Neue", "Arial", sans-serif;
 }

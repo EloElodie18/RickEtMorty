@@ -3,7 +3,6 @@ import { interval } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { CardServiceService } from '../../card-service.service';
-import { CardPersonnage } from '../../../models/cardPersonnage.model';
 import { Card } from '../../../models/card.model';
 
 @Component({
@@ -12,44 +11,70 @@ import { Card } from '../../../models/card.model';
   styleUrls: ['./page-card.component.css'],
 })
 export class PageCardComponent implements OnInit {
-  personnagesToDisplay!: Card;
-  countdownTime: number = 7200; // 2 hours in seconds
-  countdownActive: boolean = false;
-  countdownDisplay: string = '';
+
+  personnagesToDisplay: Card | undefined;
+
+  //deux heures en secondes
+  variableCompteur: number = 7200;
+  //initialisation d'un compteur actif ou non
+  compteurActif: boolean = false;
+  //visualiser le temps restant
+  compteurAffiche: string = '';
+
+  //propriété pour stocker en tableau les cartes tirées
+  history: Card[] = [];
 
   constructor(private cardsService: CardServiceService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    //Récup en LS
+    const stockCard = localStorage.getItem('Historique des cartes');
+    if (stockCard) {
+      this.history = JSON.parse(stockCard);
+    }
+  }
 
+  //recup data api
   getRandomPersonnage() {
-    if (!this.countdownActive) {
+    if (!this.compteurActif) {
       this.cardsService.getPersonnage().subscribe((data: Card) => {
-        console.log('recupe api' + JSON.stringify(data));
-        this.personnagesToDisplay = data; //ma methode qui random ce que je reçois
-        console.log(
-          'Mon tableau complété' + JSON.stringify(this.personnagesToDisplay)
-        );
-        this.startCountdown();
+        console.log('Carte aléatoire récupérée: ' + JSON.stringify(data));
+        this.personnagesToDisplay = data;
+
+        // stock LS
+        this.pushHistorique(data);
+        this.lancerDecompte();
       });
     }
   }
 
-  startCountdown() {
-    this.countdownActive = true;
-    const timer$ = interval(1000).pipe(take(this.countdownTime));
+  //Methode pour le décompte
+  lancerDecompte() {
+    //activer le compteur
+    this.compteurActif = true;
+    //créer un observable qui limite le nombre et la durée
+    const timer$ = interval(1000).pipe(take(this.variableCompteur));
+    //permettre les reactions aux valeurs de l'observable en tenant compte des const
     timer$.subscribe(
       (value) => {
-        const remaining = this.countdownTime - value;
+        const remaining = this.variableCompteur - value;
         const hours = Math.floor(remaining / 3600);
         const minutes = Math.floor((remaining % 3600) / 60);
         const seconds = remaining % 60;
-        this.countdownDisplay = `${hours}h ${minutes}m ${seconds}s`;
+        //designer et afficher valeurs
+        this.compteurAffiche = `${hours}h ${minutes}m ${seconds}s`;
       },
       (error) => console.error(error),
       () => {
-        this.countdownActive = false;
-        this.countdownDisplay = '';
+        this.compteurActif = false;
+        this.compteurAffiche = '';
       }
     );
+  }
+
+  //méthode d'insertion au LS
+  pushHistorique(card: Card) {
+    this.history.push(card);
+    localStorage.setItem('Historique des cartes', JSON.stringify(this.history));
   }
 }
