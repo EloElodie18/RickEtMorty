@@ -19,10 +19,10 @@ cy.clock;//horloge nécessaire au test du décompte
     cy.get('button').should('be.disabled');
 
     //Simuler le passage de deux heures
-    // cy.tick(2 * 60 * 60 * 1000); // 2 heures en millisecondes
+    cy.tick(2 * 60 * 60 * 1000); // 2 heures en millisecondes
 
-    // //Vérifier que le bouton est à nouveau activé
-    // cy.get('button').should('not.be.disabled');
+    //Vérifier que le bouton est à nouveau activé
+    cy.get('button').should('not.be.disabled');
   });
   it('Test pour vérifier que la carte contient les données du personnage', () => {
     cy.visit('/');  
